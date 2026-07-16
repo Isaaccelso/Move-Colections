@@ -25,5 +25,14 @@ Configure `WHATSAPP_NUMBER` sem espaços ou pontuação e gere um `FORM_TOKEN_SE
 2. Cadastre `WHATSAPP_NUMBER`, `FORM_TOKEN_SECRET`, `SITE_URL` e `ALLOWED_ORIGINS` nas variáveis de ambiente.
 3. Use `npm run build` como comando de build.
 
+No painel da Vercel, informe somente o valor da URL, sem repetir o nome da variável:
+
+```text
+SITE_URL              https://seu-projeto.vercel.app
+ALLOWED_ORIGINS       https://seu-projeto.vercel.app
+```
+
+O projeto também aceita `seu-projeto.vercel.app` sem protocolo e usa automaticamente `VERCEL_PROJECT_PRODUCTION_URL` ou `VERCEL_URL` quando `SITE_URL` estiver ausente ou inválida.
+
 O telefone nunca é incluído no HTML ou no JavaScript público. A função server-side só o usa depois que uma solicitação válida é enviada.
 # Move-Colections

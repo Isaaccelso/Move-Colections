@@ -1,8 +1,9 @@
 import { defineConfig } from "astro/config";
 import vercel from "@astrojs/vercel";
+import { resolveSiteUrl } from "./config/site-url.mjs";
 
 export default defineConfig({
-  site: process.env.SITE_URL || "http://localhost:4321",
+  site: resolveSiteUrl(),
   output: "server",
   adapter: vercel(),
   compressHTML: true,
