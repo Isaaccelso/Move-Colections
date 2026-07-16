@@ -1,0 +1,57 @@
+---
+type Props = {
+  compact?: boolean;
+  inverted?: boolean;
+};
+
+const { compact = false, inverted = false } = Astro.props;
+---
+
+<a class:list={["brand-mark", { compact, inverted }]} href="#top" aria-label="Move Collections, início">
+  <svg class="brand-mark__symbol" viewBox="0 0 40 48" aria-hidden="true">
+    <path d="M5 3.5h30v31L20 44.5 5 34.5z" />
+    <path d="M11 11h18v18.5L20 36l-9-6.5z" />
+    <path d="m13.5 18.5 6.5 4.8 6.5-4.8" />
+  </svg>
+  <span class="brand-mark__name">Move <span>Collections</span></span>
+</a>
+
+<style>
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-height: 2.75rem;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .brand-mark__symbol {
+    width: 1.75rem;
+    height: 2.1rem;
+    fill: none;
+    stroke: var(--color-metal);
+    stroke-width: 1.35;
+    stroke-linejoin: bevel;
+  }
+
+  .brand-mark__name {
+    display: flex;
+    gap: 0.38em;
+    font-size: 0.78rem;
+    font-weight: 560;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .brand-mark.compact .brand-mark__name span {
+    display: none;
+  }
+
+  @media (max-width: 27rem) {
+    .brand-mark__name span {
+      display: none;
+    }
+  }
+</style>

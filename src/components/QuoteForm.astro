@@ -1,0 +1,305 @@
+---
+type Props = { formToken: string };
+const { formToken } = Astro.props;
+const today = new Date().toISOString().slice(0, 10);
+---
+
+<form
+  class="quote-form"
+  action="/api/whatsapp"
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+  target="move-whatsapp"
+  data-quote-form
+  novalidate
+>
+  <input type="hidden" name="formToken" value={formToken} />
+  <div class="form-trap" aria-hidden="true">
+    <label for="company_website">Site da empresa</label>
+    <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="form-grid form-grid--identity">
+    <div class="field">
+      <label for="name">Seu nome</label>
+      <input id="name" name="name" type="text" autocomplete="name" minlength="2" maxlength="80" required />
+    </div>
+    <div class="field">
+      <label for="profile">Você envia como</label>
+      <select id="profile" name="profile" required>
+        <option value="">Selecione</option>
+        <option value="collector">Colecionador(a)</option>
+        <option value="store">Loja</option>
+        <option value="seller">Vendedor(a)</option>
+      </select>
+    </div>
+  </div>
+
+  <fieldset class="item-fieldset">
+    <legend>O que precisa ser transportado?</legend>
+    <div class="choice-grid">
+      <label class="choice"><input type="checkbox" name="itemTypes" value="cards" /> <span>Cards e decks</span></label>
+      <label class="choice"><input type="checkbox" name="itemTypes" value="slabs" /> <span>Slabs e cases</span></label>
+      <label class="choice"><input type="checkbox" name="itemTypes" value="sealed" /> <span>Itens selados</span></label>
+      <label class="choice"><input type="checkbox" name="itemTypes" value="miniatures" /> <span>Miniaturas</span></label>
+      <label class="choice"><input type="checkbox" name="itemTypes" value="other" /> <span>Outro colecionável</span></label>
+    </div>
+    <p class="field-hint">Selecione ao menos uma opção. Cada item passa por avaliação antes da confirmação.</p>
+  </fieldset>
+
+  <div class="form-grid form-grid--route">
+    <div class="field">
+      <label for="quantity">Quantidade aproximada</label>
+      <input id="quantity" name="quantity" type="number" inputmode="numeric" min="1" max="500" required />
+    </div>
+    <div class="field field--wide">
+      <label for="dimensions">Dimensões aproximadas</label>
+      <input id="dimensions" name="dimensions" type="text" maxlength="80" placeholder="Ex.: caixa de 35 × 25 × 15 cm" required />
+    </div>
+    <div class="field">
+      <label for="origin">Origem</label>
+      <input id="origin" name="origin" type="text" maxlength="100" placeholder="Bairro ou endereço" autocomplete="street-address" required />
+    </div>
+    <div class="field">
+      <label for="destination">Destino</label>
+      <input id="destination" name="destination" type="text" maxlength="100" placeholder="Bairro ou endereço" required />
+    </div>
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="declaredValue">Valor declarado <span>(opcional)</span></label>
+      <input id="declaredValue" name="declaredValue" type="text" inputmode="decimal" maxlength="40" placeholder="Ex.: R$ 3.500" />
+      <p class="field-hint">Usado apenas na avaliação operacional. Não representa seguro ou cobertura.</p>
+    </div>
+    <div class="field">
+      <label for="desiredDate">Data desejada</label>
+      <input id="desiredDate" name="desiredDate" type="date" min={today} required />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="notes">Observações <span>(opcional)</span></label>
+    <textarea id="notes" name="notes" rows="4" maxlength="600" placeholder="Conte sobre fragilidade, condição, acesso aos endereços ou outra necessidade."></textarea>
+  </div>
+
+  <label class="consent">
+    <input type="checkbox" name="consent" required />
+    <span>Autorizo o uso destes dados para avaliar este atendimento e entendo que o serviço não inclui seguro.</span>
+  </label>
+
+  <div class="form-submit">
+    <button class="button button--primary" type="submit" data-submit-button>
+      <span data-submit-label>Continuar no WhatsApp</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 12-7-3.6 7L17 19 5 12Z" /></svg>
+    </button>
+    <p class="form-status" role="status" aria-live="polite" data-form-status>
+      Seus dados serão levados para uma conversa privada com nossa equipe.
+    </p>
+  </div>
+</form>
+
+<style>
+  .quote-form {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .form-grid {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .field,
+  .item-fieldset {
+    display: grid;
+    gap: var(--space-xs);
+    min-width: 0;
+  }
+
+  .field label,
+  .item-fieldset legend {
+    color: var(--color-ink);
+    font-size: var(--text-sm);
+    font-weight: 560;
+    letter-spacing: 0.02em;
+  }
+
+  .field label span {
+    color: var(--color-muted);
+    font-weight: 420;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-soft);
+    color: var(--color-ink);
+    font: inherit;
+    transition: border-color 180ms var(--ease-out), background-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+  }
+
+  input,
+  select {
+    padding: 0 var(--space-sm);
+  }
+
+  textarea {
+    min-height: 7.5rem;
+    padding: var(--space-sm);
+    resize: vertical;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: oklch(0.66 0.014 180);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    border-color: var(--color-primary-strong);
+    background: var(--color-surface);
+    box-shadow: 0 0 0 3px oklch(0.58 0.105 180 / 0.24);
+    outline: none;
+  }
+
+  input:user-invalid,
+  select:user-invalid,
+  textarea:user-invalid {
+    border-color: var(--color-danger);
+  }
+
+  .field-hint {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  .item-fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .item-fieldset legend {
+    margin-bottom: 0.75rem;
+  }
+
+  .choice-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .choice,
+  .consent {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    cursor: pointer;
+  }
+
+  .choice {
+    min-height: 2.75rem;
+    align-items: center;
+    padding: var(--space-xs);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-sm);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    transition: border-color 180ms var(--ease-out), color 180ms var(--ease-out), background-color 180ms var(--ease-out);
+  }
+
+  .choice:has(input:checked) {
+    border-color: var(--color-primary);
+    background: oklch(0.22 0.035 180);
+    color: var(--color-ink);
+  }
+
+  .choice input,
+  .consent input {
+    width: 1.1rem;
+    height: 1.1rem;
+    min-height: auto;
+    margin: 0;
+    accent-color: var(--color-primary-strong);
+  }
+
+  .consent {
+    max-width: 68ch;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .consent input {
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+  }
+
+  .form-submit {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding-top: var(--space-sm);
+  }
+
+  .form-submit .button {
+    min-width: min(100%, 18.5rem);
+  }
+
+  .form-submit svg {
+    width: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+  }
+
+  .form-status {
+    max-width: 68ch;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .form-trap {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    white-space: nowrap !important;
+  }
+
+  @media (min-width: 43rem) {
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-grid--route {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+
+    .form-grid--route .field:nth-child(n + 3) {
+      grid-column: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    input,
+    select,
+    textarea,
+    .choice {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

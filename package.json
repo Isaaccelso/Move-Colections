@@ -1,0 +1,30 @@
+{
+  "name": "move-collections",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^11.0.3",
+    "@fontsource-variable/schibsted-grotesk": "^5.2.8",
+    "astro": "^7.1.0",
+    "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@types/node": "^24.10.0",
+    "typescript": "^6.0.0",
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "path-to-regexp": "6.3.0"
+  }
+}
